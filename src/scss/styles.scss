@@ -1,0 +1,120 @@
+$background-color: #151a30;
+$font-white: white;
+$card-background: white;
+$card-text: black;
+$border-color: rgb(146, 0, 102);
+
+
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: $background-color;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin-top: 1.5rem;
+    h1 {
+        color: $font-white;
+        margin-bottom: 1rem;
+    }
+}
+
+.todolist {
+    // display: flex;
+    display: table;
+    margin: 0 auto;
+    // justify-content: "center";
+}
+
+.list {
+    margin-top: 1rem;
+    h1 {
+        color: $font-white;
+        font-size: 0.75rem;
+        text-align: center;
+        font-weight: 100;
+    }
+}
+
+.input-field {
+    input {
+        border: none;
+        -webkit-appearance: none;
+        -ms-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        padding: 0.5rem;
+        background-color: $background-color;
+        border-radius: 0.25rem;
+        border-color: $border-color;
+        border-width: 2px;
+        border-right: none;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        border-right-width: 0;
+        border-style: solid;
+        color: $font-white
+    }
+    input:focus {
+        outline:none!important;
+        caret-color: $font-white;
+    }   
+}
+
+.btn-form {
+    padding: 0.5rem;
+    color: $font-white;
+    background-color: $border-color;
+    border-color: $border-color;
+    border-width: 2px;
+    border-style: solid;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    cursor: pointer;
+    &:hover {
+     background-color: lighten($border-color, 10);
+     border-color: lighten($border-color, 10)
+    }
+}
+
+.btn-form.btn-disable {
+        background-color: darken($border-color, 10);
+        border-color: darken($border-color, 10);
+        &:hover {
+            cursor: not-allowed;
+        }
+}
+
+.eachTodoCard {
+    margin-bottom: 1rem;
+    background-color: $card-background;
+    padding: 1rem;
+    border-radius: 0.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    &:hover {
+        background-color: darken($card-background, 20);
+    }
+    p {
+        font-size: 0.75rem;
+        color: $card-text
+    }
+    .icon {
+        margin-left: 5px;
+    }
+    .icon:hover {
+        color: lighten($card-text, 50);
+        cursor: pointer;
+    }
+    
+}

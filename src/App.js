@@ -1,33 +1,58 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { AiOutlineEdit } from "react-icons/ai";
 import "./css/styles.css"
 
+const axios = require('axios');
+
 const App = () => {
   const [inputTodo, setInputTodo] = useState("")
-  const [todoId, setTodoId] = useState(3)
-  const [todoArray, setTodoArray] = useState([
-    {id: 0, text: "Get Eggs"},
-    {id: 1, text: "Get Bread"},
-    {id: 2, text: "Go for a walk walking"}
-  ])
+  // const [todoId, setTodoId] = useState(3)
+  const [todoArray, setTodoArray] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(nul);
 
-  const addTodo = () => {
-    setTodoArray([...todoArray, {id: todoId, text: inputTodo}])
-    setTodoId((prevId) => prevId + 1)
-    setInputTodo("")
+  const getTodoList = async () => {
+    setErrorMessage(null)
+  const todoList = await axios.get("http://localhost:3001/api/todoList")
+  setTodoArray(todoList.data)
+  }
+  useEffect(() => {
+  getTodoList()
+  }, [])
+
+  const addTodo = async () => {
+    // setTodoArray([...todoArray, {id: todoId, text: inputTodo}])
+    // setTodoId((prevId) => prevId + 1)
+    try {
+      setInputTodo("")
+      const reponse = await axios.post("http://localhost:3001/api/addTodo", {
+        text: inputTodo
+      })
+      console.log(reponse.data)
+      getTodoList()
+    } catch(e) {
+      setErrorMessage(e.response.data.message)
+    }
+   
   }
 
-  const removeFromTodo = (todoId) => {
-    setTodoArray(todoArray.filter(todo => todoId !== todo.id))
+  const removeFromTodo = async (todoId) => {
+    // setTodoArray(todoArray.filter(todo => todoId !== todo.id))
+    const meow = await axios.delete(`http://localhost:3001/api/deletetodo/${todoId}`)
+    console.log(meow)
+    getTodoList()
   }
 
-  const editTodo = (newText, todoId) => {
-    const todoArrayCopy = [...todoArray]
-    const todoElement = todoArrayCopy.filter(todo => todoId === todo.id )[0]
-    todoElement.text = newText
+  const editTodo = async (newText, todoId) => {
+    // const todoArrayCopy = [...todoArray]
+    // const todoElement = todoArrayCopy.filter(todo => todoId === todo.id )[0]
+    // todoElement.text = newText
     // console.log(todoElement)
-    setTodoArray(todoArrayCopy)
+    await axios.put(`http://localhost:3001/api/updatetodo/${todoId}`, {
+      text: newText
+    })
+    getTodoList()
+    // setTodoArray(todoArrayCopy)
   }
   return (
     <div className="container">
@@ -42,12 +67,12 @@ const App = () => {
           <button className="btn-form btn-disable" disabled onClick={() => addTodo()}>
           Add Todo
         </button>}
-          
         </div>
+        <p className="message-error">{errorMessage}</p>
         <div className="list">
-          {todoArray.length > 0 ? todoArray.map(todo => (
+          {todoArray?.length > 0 ? todoArray.map(todo => (
             <div className="eachTodoCard" key={todo.id}>
-              <p className="todoText">{todo.text}</p>
+              <p className="todoText">{todo.text} {todo.id}</p>
               <div className="icons-container">
                 <AiOutlineCloseCircle className="icon" onClick={() => removeFromTodo(todo.id)}/>
                 <AiOutlineEdit className="icon" onClick={() => editTodo(prompt("Edit text", `${todo.text}`), todo.id)} />

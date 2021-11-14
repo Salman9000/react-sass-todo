@@ -3,6 +3,11 @@ $font-white: white;
 $card-background: white;
 $card-text: black;
 $border-color: rgb(146, 0, 102);
+$error:  rgb(252, 165, 165);
+$success: rgb(110, 231, 183);
+$warning: rgb(252, 211, 77);
+
+@import 'message';
 
 
 

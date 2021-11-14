@@ -9,7 +9,7 @@ const App = () => {
   const [inputTodo, setInputTodo] = useState("")
   // const [todoId, setTodoId] = useState(3)
   const [todoArray, setTodoArray] = useState(null)
-  const [errorMessage, setErrorMessage] = useState(nul);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const getTodoList = async () => {
     setErrorMessage(null)
